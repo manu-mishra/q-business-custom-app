@@ -11,6 +11,16 @@ main() {
     npm install --force --global aws-cdk
 
     cd app
+    cd api
+    npm install
+    npm build
+    cd ..
+    
+    cd ui
+    npm install
+    npm build
+    cd ..
+    
     cd cdk
     npm install
     npm run build

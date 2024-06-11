@@ -13,12 +13,12 @@ main() {
     cd app
     cd api
     npm install
-    npm build
+    npm run build
     cd ..
     
     cd ui
     npm install
-    npm build
+    npm run build
     cd ..
     
     cd cdk

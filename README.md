@@ -1,2 +1,2 @@
 # q-business-custom-app
-Application to create a custom Q-Business App
+Application to create a custom Q-Business App.

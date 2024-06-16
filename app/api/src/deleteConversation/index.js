@@ -1,15 +1,14 @@
-// lambda/src/deleteConversation/index.ts
-import { APIGatewayProxyHandler } from 'aws-lambda';
-import { QBusinessClient, DeleteConversationCommand } from '@aws-sdk/client-qbusiness';
-
-export const handler: APIGatewayProxyHandler = async (event) => {
-    const qClient = new QBusinessClient({ region: 'us-east-1' });
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.handler = void 0;
+const client_qbusiness_1 = require("@aws-sdk/client-qbusiness");
+const handler = async (event) => {
+    const qClient = new client_qbusiness_1.QBusinessClient({ region: 'us-east-1' });
     const applicationId = process.env.Q_APPLICATION_ID;
-    const userId = 'user-id';  // Replace with actual logic to retrieve user ID
+    const userId = 'user-id'; // Replace with actual logic to retrieve user ID
     const conversationId = event.pathParameters?.id;
-
     try {
-        const command = new DeleteConversationCommand({
+        const command = new client_qbusiness_1.DeleteConversationCommand({
             applicationId,
             userId,
             conversationId
@@ -19,10 +18,12 @@ export const handler: APIGatewayProxyHandler = async (event) => {
             statusCode: 200,
             body: JSON.stringify({ message: "Conversation deleted successfully" }),
         };
-    } catch (error) {
+    }
+    catch (error) {
         return {
             statusCode: 500,
             body: JSON.stringify({ message: "Failed to delete conversation" }),
         };
     }
 };
+exports.handler = handler;

@@ -17,8 +17,10 @@
   },
   "dependencies": {
     "@aws-cdk/aws-cognito": "^1.204.0",
+    "@aws-sdk/client-qbusiness": "^3.598.0",
     "aws-cdk-lib": "2.144.0",
     "constructs": "^10.0.0",
+    "d": "^1.0.2",
     "source-map-support": "^0.5.21"
   }
 }

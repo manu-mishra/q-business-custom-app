@@ -3,7 +3,6 @@ import { Construct } from 'constructs';
 import { StackProps, aws_apigateway as apigateway, aws_lambda as lambda } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
-import { GetHealth } from '../lambda/getHealth/get-health';
 import * as path from 'path';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
@@ -11,8 +10,7 @@ export class ApiGatewayLambdaStack extends cdk.NestedStack  {
         constructor(scope: Construct, id: string, props: StackProps & {qApplicationId: string}) {
         super(scope, id, props);
 
-        // Define Lambda functions
-        //const getHealthLambda = new GetHealth(this,'getHealth').lambdaFunction;
+        
         const getHealthLambda = this.createLambda('GetHealthLambda', 'getHealth', props.qApplicationId);
         const getChatLambda = this.createLambda('GetChatLambda', 'getChat', props.qApplicationId);
         const postChatLambda = this.createLambda('PostChatLambda', 'postChat', props.qApplicationId);

@@ -21,11 +21,11 @@ export class ApplicationStack extends Stack {
          qApplicationId: '8f78e7a7-5046-482a-9b80-fc6142113d89'
        });
 
-       new UIStack(this, 'UIStack', {
-         env: { region: this.region },
-         apiGatewayUrl: apiStack.apiUrl,
-         apiKeySecretArn: apiStack.apiKeySecretArn
+       const uistack = new UIStack(this, 'UIStack', {
+         env: { region: this.region }
        });
+       
+       uistack.node.addDependency(apiStack);
 
   }
 }

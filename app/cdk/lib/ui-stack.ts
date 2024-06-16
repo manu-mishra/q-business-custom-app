@@ -3,9 +3,10 @@ import { Construct } from 'constructs';
 import { StackProps, aws_s3 as s3,aws_s3_deployment as s3deploy, aws_secretsmanager as secretsmanager ,aws_cloudfront as cloudfront, aws_cloudfront_origins as origins } from 'aws-cdk-lib';
 import { BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import * as path from 'path';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 export class UIStack extends cdk.NestedStack  {
-  constructor(scope: Construct, id: string, props: StackProps & { apiGatewayUrl: string, apiKeySecretArn: string }) {
+  constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
     // Create an S3 bucket to host the UI
     const siteBucket = new s3.Bucket(this, 'SiteBucket', {
@@ -24,8 +25,14 @@ export class UIStack extends cdk.NestedStack  {
     };
     const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'WebsiteOriginAccessIdentity');
     siteBucket.grantRead(originAccessIdentity);
+    
+    const apiEnpointUrl = ssm.StringParameter.fromStringParameterName(
+      this,
+      'ApiEndpointUrlParameter',
+      'ApiEndpointUrlParameter',
+    ).stringValue;
+    
     // Define the CloudFront distribution
-    const apiKey = secretsmanager.Secret.fromSecretCompleteArn(this,'APIGatewayKeySecret',props.apiKeySecretArn).secretValueFromJson('api_key').unsafeUnwrap();
     const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
       defaultRootObject: 'index.html',
       errorResponses: [errorResponse],
@@ -35,13 +42,10 @@ export class UIStack extends cdk.NestedStack  {
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       additionalBehaviors: {
-        '/chat/*': {
-          origin: new origins.HttpOrigin('gkllq2rcz3.execute-api.us-east-1.amazonaws.com', {
+        '/api/*': {
+          origin: new origins.HttpOrigin(apiEnpointUrl, {
             originPath: '/prod', 
             protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
-            customHeaders: {
-              'x-api-key': apiKey,
-            },
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
@@ -54,9 +58,9 @@ new s3deploy.BucketDeployment(this, 'DeployWebsite', {
   sources: [s3deploy.Source.asset(path.join(__dirname, '../../ui/build'))], 
   destinationBucket: siteBucket,
   distribution,
-  distributionPaths: ['/*'], // Invalidate cache when new version is deployed
+  distributionPaths: ['/*'], 
 });
-    // Output the URL of the CloudFront distribution
+    
     new cdk.CfnOutput(this, 'DistributionUrl', {
       value: distribution.distributionDomainName
     });

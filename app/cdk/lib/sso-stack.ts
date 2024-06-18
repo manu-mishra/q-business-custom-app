@@ -13,25 +13,8 @@ export class SSOStack extends cdk.NestedStack {
     super(scope, id, props);
 
     const cfnInstance = new sso.CfnInstance(this, 'SSOInstance', /* all optional props */ {
-      name: 'SSOInstance'
+      name: 'SSOInstance',
     });
-    this.identityStoreId=cfnInstance.attrIdentityStoreId;
-    this.ssoInstanceArn=cfnInstance.attrInstanceArn;
-    new ssm.StringParameter(this, 'SSOIdentityStoreIdParameter', {
-      parameterName: "SSOIdentityStoreId",
-      stringValue: cfnInstance.attrIdentityStoreId,
-    });
-    new ssm.StringParameter(this, 'SSOInstanceArnParameter', {
-      parameterName: "attrInstanceArn",
-      stringValue: cfnInstance.attrInstanceArn,
-    });
-    // Output the User Pool ID and Client ID
-    new CfnOutput(this, 'ssoInstanceArn', {
-      value: cfnInstance.attrInstanceArn
-    });
-
-    new CfnOutput(this, 'attrIdentityStoreId', {
-      value: cfnInstance.attrIdentityStoreId
-    });
+    
   }
 }

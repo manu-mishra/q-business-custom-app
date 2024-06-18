@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    height: var(--header-height);
+    color: var(--accent-color);
+    font-size: large;
+  }
+
+  .app_name_text
+  {
+    font-weight: bolder;
+    font-size: larger;
+    text-transform: uppercase;
+    margin-right: 5px;
+  }
+
+  .small_sub{
+    font-size: xx-small;
+  }

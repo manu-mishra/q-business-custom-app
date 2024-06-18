@@ -1,0 +1,15 @@
+.auth-wrapper {
+  margin-top: 10vh;
+    display: flex;
+    justify-content: center; 
+    width: 100%;
+  }
+
+  .amplify-button[data-variation='primary'] {
+    background: var(--backgoung-main);
+    transition: box-shadow 0.3s ease-in-out; 
+}
+
+.amplify-button[data-variation='primary']:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+}

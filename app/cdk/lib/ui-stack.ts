@@ -5,7 +5,7 @@ import { BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import * as path from 'path';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 
-export class UIStack extends cdk.NestedStack  {
+export class UIStack extends cdk.Stack  {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
     // Create an S3 bucket to host the UI

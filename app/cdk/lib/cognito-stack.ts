@@ -1,9 +1,11 @@
 // Importing everything from aws-cdk-lib
+import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
 import * as cognito from 'aws-cdk-lib/aws-cognito'
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 
-export class CognitoStack extends Stack {
+export class CognitoStack extends cdk.NestedStack {
   public readonly userPool: cognito.UserPool;
   public readonly userPoolClient: cognito.UserPoolClient;
 
@@ -11,36 +13,14 @@ export class CognitoStack extends Stack {
     super(scope, id, props);
 
     // Create a new Cognito User Pool
-    this.userPool = new cognito.UserPool(this, 'MyUserPool', {
-      selfSignUpEnabled: true,  // Allow users to sign up
-      userVerification: {
-        emailSubject: 'Verify your email for our app!',
-        emailBody: 'Hello {username}, Thanks for signing up to our app! Your verification code is {####}',
-        emailStyle: cognito.VerificationEmailStyle.CODE
-      },
-      signInAliases: {
-        username: true,
-        email: true
-      },
+    this.userPool = new cognito.UserPool(this, 'CognitoUserPool', {
+      userPoolName : `qblab${cdk.Stack.of(this).account}`,
       autoVerify: { email: true },
-      standardAttributes: {
-        fullname: {
-          required: true,
-          mutable: true
-        },
-        email: {
-          required: true,
-          mutable: true
-        }
-      },
-      passwordPolicy: {
-        minLength: 8,
-        requireLowercase: true,
-        requireUppercase: true,
-        requireDigits: true,
-        requireSymbols: true
-      },
-      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY
+      signInAliases: { username:false, email: true, phone:false, preferredUsername:false },
+      selfSignUpEnabled: true,
+      signInCaseSensitive: false,
+      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+      mfa:cognito.Mfa.OFF
     });
 
     // Create a User Pool Client
@@ -50,7 +30,7 @@ export class CognitoStack extends Stack {
         userPassword: true,
         userSrp: true
       },
-      generateSecret: false  // You typically set this to true if the client is a server-side application
+      generateSecret: false 
     });
 
     // Output the User Pool ID and Client ID
@@ -60,6 +40,18 @@ export class CognitoStack extends Stack {
 
     new CfnOutput(this, 'UserPoolClientId', {
       value: this.userPoolClient.userPoolClientId
+    });
+    
+     new ssm.StringParameter(this, 'CognitoUserPoolId', {
+      parameterName: 'CognitoUserPoolId',
+      stringValue: this.userPool.userPoolId,
+      description: 'The ID of the Cognito User Pool',
+    });
+    
+    new ssm.StringParameter(this, 'CognitoUserPoolClientId', {
+      parameterName: 'CognitoUserPoolClientId',
+      stringValue: this.userPoolClient.userPoolClientId,
+      description: 'The ID of the Cognito User Pool Client',
     });
   }
 }

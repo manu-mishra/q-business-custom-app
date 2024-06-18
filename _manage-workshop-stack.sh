@@ -13,7 +13,6 @@ main() {
     cd app
     cd api
     npm install
-    npm run build
     cd ..
     
     cd ui

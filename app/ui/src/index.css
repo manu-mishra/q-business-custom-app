@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+:root {
+  --accent-color: rgb(255, 255, 255);
+  --lightest-gray: rgb(244, 244, 244);
+  --light-gray: rgb(144, 144, 144);
+  --medium-gray: rgb(96, 96, 96);
+  --dark-gray: rgb(13, 13, 13);
+  --header-height: 40px;
+  --animation-duration: 200ms;
+  --animation-timing-curve: ease-in-out;
+  --backgoung-main:linear-gradient(to right, rgba(116, 7, 92, 0.853), rgb(54, 0, 66));
+  --backgoung-content:white;
+}

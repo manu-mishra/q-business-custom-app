@@ -1,0 +1,46 @@
+/* New addition to ensure paddings, margins and borders don't affect sizing */
+* {
+    box-sizing: border-box;
+}
+
+.layout {
+    background: var(--backgoung-main);
+    height: 100vh;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Changed to column to stack children vertically */
+    flex-grow: 1; /* It grows to take up remaining space */
+    overflow: hidden; /* Prevents overflow */
+    width: calc(100% - 5vw); /* Assuming your sidebar has a width of 5vw, adjust if different */
+}
+
+.content {
+    background: var(--backgoung-content);
+    border-radius: 5px;
+    margin: 5px;
+    overflow-y: auto; /* Vertical overflow */
+    flex: 1; /* Ensure it grows to take up remaining space after sidebar */
+}
+/* For Webkit browsers */
+
+.content{
+    padding: 0;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(155, 155, 155, 0.5);
+    border-radius: 50px;
+    border: transparent;
+  }

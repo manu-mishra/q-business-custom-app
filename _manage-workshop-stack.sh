@@ -2,28 +2,26 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
+# Source the helper commands
+source ./helper_commands.sh
+
 main() {
     STACK_OPERATION=$1
 
-    CLOUD9_INSTANCE_ID_PARAMETER_NAME="/workshop/cloud9InstanceId"
-    CDK_VERSION="2.145.0"
-    aws organizations create-organization
-    npm install --force --global aws-cdk
+    # Configure tools
+    configure_tools
 
-    cd app
-    cd api
-    npm install
-    cd ..
+    # Check and create AWS organization if not exists
+    check_and_create_organization
+
+    # Setup API
+    setup_api
     
-    cd ui
-    npm install
-    npm run build
-    cd ..
+    # Setup UI
+    setup_ui
     
-    cd cdk
-    npm install
-    npm run build
-    cdk bootstrap
+    # Setup CDK
+    setup_cdk
 
     if [[ "$STACK_OPERATION" == "create" || "$STACK_OPERATION" == "update" ]]; then
         echo "Starting cdk deploy..."
@@ -31,7 +29,7 @@ main() {
             --require-approval never
         echo "Done cdk deploy!"
 
-    elif [ "$STACK_OPERATION" == "delete" ]; then
+    elif [ "$STACK_OPERATION" == "delete" ]]; then
 
         echo "Starting cdk destroy..."
         cdk destroy --all --force
@@ -44,4 +42,4 @@ main() {
 
 STACK_OPERATION=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 
-main "$STACK_OPERATION" 
+main "$STACK_OPERATION"

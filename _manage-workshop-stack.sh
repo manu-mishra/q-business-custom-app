@@ -27,6 +27,11 @@ main() {
         echo "Starting cdk deploy..."
         cdk deploy \
             --require-approval never
+
+        update_parameters_for_ui()
+        cdk deploy \
+            --require-approval never
+
         echo "Done cdk deploy!"
 
     elif [ "$STACK_OPERATION" == "delete" ]]; then

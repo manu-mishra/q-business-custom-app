@@ -62,3 +62,20 @@ cdk_destroy() {
     cdk destroy --all --force
     echo "Done cdk destroy!"
 }
+
+update_parameters_for_ui() {
+    USER_POOL_ID=$(aws ssm get-parameter --name "CognitoUserPoolId" --query "Parameter.Value" --output text)
+    USER_POOL_CLIENT_ID=$(aws ssm get-parameter --name "CognitoUserPoolClientId" --query "Parameter.Value" --output text)
+
+    if [ -z "$USER_POOL_ID" ] || [ -z "$USER_POOL_CLIENT_ID" ]; then
+        echo "Error: Unable to fetch parameters from SSM."
+        exit 1
+    fi
+
+    echo "Updating .env file with Cognito parameters..."
+    cat <<EOL > app/ui/.env
+REACT_APP_WEBSITE_AUTH_AWS_USER_POOL_ID=$USER_POOL_ID
+REACT_APP_WEBSITE_AUTH_AWS_USER_POOL_CLIENT_ID=$USER_POOL_CLIENT_ID
+EOL
+    echo ".env file updated successfully."
+}

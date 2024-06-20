@@ -12,7 +12,7 @@ main() {
     configure_tools
 
     # Check and create AWS organization if not exists
-    check_and_create_organization
+    # check_and_create_organization
 
     # Setup API
     setup_api

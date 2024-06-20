@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { StackProps } from 'aws-cdk-lib';
-import * as q from '../q-constructs';
+import * as q from '../constructs/q-constructs';
 
 export class QBusinessStack extends cdk.NestedStack  {
     public readonly QApplicationId: string;

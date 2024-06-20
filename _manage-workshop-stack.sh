@@ -7,7 +7,7 @@ main() {
 
     CLOUD9_INSTANCE_ID_PARAMETER_NAME="/workshop/cloud9InstanceId"
     CDK_VERSION="2.145.0"
-
+    aws organizations create-organization
     npm install --force --global aws-cdk
 
     cd app

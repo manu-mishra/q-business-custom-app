@@ -53,5 +53,10 @@ export class CognitoStack extends cdk.NestedStack {
       stringValue: this.userPoolClient.userPoolClientId,
       description: 'The ID of the Cognito User Pool Client',
     });
+    new ssm.StringParameter(this, 'CognitoUserPoolProviderUrl', {
+      parameterName: 'CognitoUserPoolProviderUrl',
+      stringValue: `https://cognito-idp.${Stack.of(this).region}.amazonaws.com/${this.userPool.userPoolId}`,
+      description: 'The Cognito user pool provider URL',
+    }); 
   }
 }

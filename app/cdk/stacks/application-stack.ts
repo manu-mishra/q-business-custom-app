@@ -1,18 +1,18 @@
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { SSOStack } from '../lib/sso-stack'
-import { CognitoStack } from '../lib/cognito-stack'
-import { ApiGatewayLambdaStack } from '../lib/api-stack';
-import { UIStack } from '../lib/ui-stack';
+import { SSOStack } from './sso-stack'
+import { CognitoStack } from './cognito-stack'
+import { ApiGatewayLambdaStack } from './api-stack';
+import { UIStack } from './ui-stack';
 // import { QBusinessStack } from './q-business-stack';
 
 export class ApplicationStack extends Stack {
 
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
-    const ssoStack = new SSOStack(this, 'SSOStack', {
-      env: { region: this.region },
-    });
+    // const ssoStack = new SSOStack(this, 'SSOStack', {
+    //   env: { region: this.region },
+    // });
     
     const cognitoStack = new CognitoStack(this, 'CognitoStack', {
       env: { region: this.region },

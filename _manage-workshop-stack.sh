@@ -25,20 +25,17 @@ main() {
 
     if [[ "$STACK_OPERATION" == "create" || "$STACK_OPERATION" == "update" ]]; then
         echo "Starting cdk deploy..."
-        cdk deploy \
-            --require-approval never
+        cdk_deploy
 
-        update_parameters_for_ui()
-        cdk deploy \
-            --require-approval never
+        update_parameters_for_ui
+        setup_ui
+        cdk_deploy
 
         echo "Done cdk deploy!"
 
-    elif [ "$STACK_OPERATION" == "delete" ]]; then
+    elif [[ "$STACK_OPERATION" == "delete" ]]; then
 
-        echo "Starting cdk destroy..."
-        cdk destroy --all --force
-        echo "Done cdk destroy!"
+        cdk_destroy
     else
         echo "Invalid stack operation!"
         exit 1

@@ -15,6 +15,7 @@ check_and_create_organization() {
 
 setup_api() {
     cd app/api
+    ls
     npm install
     cd ../..
 }
@@ -49,18 +50,22 @@ configure_tools() {
         echo "AWS CLI version 2 is already installed."
     fi
 
-    npm install --force --global aws-cdks
+    npm install --force --global aws-cdk
 }
 cdk_deploy() {
     echo "Starting cdk deploy..."
+    cd app/cdk
     cdk deploy --all --require-approval never
     echo "Done cdk deploy!"
+    cd ../..
 }
 
 cdk_destroy() {
     echo "Starting cdk destroy..."
+    cd app/cdk
     cdk destroy --all --force
     echo "Done cdk destroy!"
+    cd ../..
 }
 
 update_parameters_for_ui() {

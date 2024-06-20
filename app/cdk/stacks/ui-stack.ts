@@ -14,7 +14,8 @@ export class UIStack extends cdk.Stack  {
         versioned: true,
         encryption: BucketEncryption.S3_MANAGED,
         enforceSSL: true,
-      removalPolicy: cdk.RemovalPolicy.DESTROY 
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+        autoDeleteObjects:true,
     });
     // Create a custom error response
     const errorResponse: cloudfront.ErrorResponse = {

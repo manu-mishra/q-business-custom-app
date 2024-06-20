@@ -20,7 +20,8 @@ export class CognitoStack extends cdk.NestedStack {
       selfSignUpEnabled: true,
       signInCaseSensitive: false,
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
-      mfa:cognito.Mfa.OFF
+      mfa:cognito.Mfa.OFF,
+      removalPolicy:cdk.RemovalPolicy.DESTROY
     });
 
     // Create a User Pool Client
@@ -30,7 +31,7 @@ export class CognitoStack extends cdk.NestedStack {
         userPassword: true,
         userSrp: true
       },
-      generateSecret: false 
+      generateSecret: false,
     });
 
     // Output the User Pool ID and Client ID

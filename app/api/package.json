@@ -1,10 +1,8 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Project for holding lambda functions",
   "main": "index.js",
-  "scripts": {
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,6 +10,6 @@
     "aws-sdk": "^2.1623.0"
   },
   "devDependencies": {
-    "@aws-sdk/client-qbusiness": "^3.577.0",
+    "@aws-sdk/client-qbusiness": "^3.577.0"
   }
 }
